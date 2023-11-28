@@ -2,13 +2,14 @@ from flask import Flask
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "5569f02c22d1939f85a1530a1c9d330a80f73b7f"
-app.config["MONGO_URI"] = "mongodb+srv://yazz1:<password>@cluster0.051rnmh.mongodb.net/?retryWrites=true&w=majority"
+app.config["SECRET_KEY"] = <secret-key>		# CHANGE THIS
+app.config["MONGO_URI"] = <mongoDB-URI>		# CHANGE THIS
 
 
 #setup database
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
+
 
 
 from application import routes
