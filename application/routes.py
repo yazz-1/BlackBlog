@@ -1,4 +1,4 @@
-from application import app
+from application import app, db
 from flask import request
 import json
 
@@ -7,11 +7,12 @@ import json
 def index():
 	return "He110 w0rld"
 
-@app.route("/login", methods=['POST', 'GET'])
-def login():
+@app.route("/post", methods=['POST', 'GET'])
+def posts():
 	if request.method == 'POST':
-		x = {'method': 'POST'}
-		return json.dumps(x)
+		x = {'id': 1,'text': request.form['text']}
+		db.tests.insert_one(x)
+		return "Done"
 	if request.method == 'GET':
-		x = {'method': 'GET'}
-		return json.dumps(x)
+		db.tests.find_one({'id': 1})
+		return "No problem"
