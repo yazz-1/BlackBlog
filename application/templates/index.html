@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Lastest Articles {% endblock %}</h1>
+
+    {% for x in posts %}
+            <h2> {{ x.title }} </h2>
+            <h3> {{ x.user }} </h3>
+            <p>
+                {{ x.text }}
+            </p>
+            <p>
+                {{ x.date }}
+            </p>
+    {% endfor %}
+
+{% endblock %}

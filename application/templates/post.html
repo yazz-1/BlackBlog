@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Add a New Article {% endblock %}</h1>
+
+    <form method="POST" action="/post">
+        {{ form.csrf_token }}
+        <p>
+            {{ form.title.label }}
+            {{ form.title(size=20) }}
+        </p>
+
+        {% if form.title.errors %}
+            <ul class="errors">
+                {% for error in form.title.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p>
+            {{ form.text.label }}
+        </p>
+        {{ form.text(rows=10, cols=100) }}
+
+        {% if form.text.errors %}
+            <ul class="errors">
+                {% for error in form.text.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p>
+            {{ form.user.label }}
+            {{ form.user() }}
+        </p>
+
+        {% if form.user.errors %}
+            <ul class="errors">
+                {% for error in form.user.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p>
+            <input type="submit" value="Add">
+        </p>
+    </form>
+
+{% endblock %}

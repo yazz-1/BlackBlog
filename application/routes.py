@@ -1,18 +1,24 @@
 from application import app, db
-from flask import request
-import json
+from flask import request, render_template
+from forms import ArticleForm
+import datetime
 
 
 @app.route("/")
 def index():
-	return "He110 w0rld"
+	posts = db.tests.find()
+	return render_template('index.html', posts=posts)
 
 @app.route("/post", methods=['POST', 'GET'])
-def posts():
-	if request.method == 'POST':
-		x = {'id': 1,'text': request.form['text']}
+def post():
+	form = ArticleForm()
+	if form.validate_on_submit():
+		x = {'user': form.user.data,
+				'title': form.title.data,
+				'text': form.text.data,
+				'date': datetime.datetime.now()
+			}
 		db.tests.insert_one(x)
-		return "Done"
-	if request.method == 'GET':
-		db.tests.find_one({'id': 1})
-		return "No problem"
+		return render_template('post.html', form=form)
+	else:
+		return render_template('post.html', form=form)
