@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Lastest Articles {% endblock %}</h1>
+    <h1>{% block title %} {{user}}'s Articles {% endblock %}</h1>
 
     {% for x in articles %}
             <h3> {{ x.title }}, by {{ x.user }} </h3>

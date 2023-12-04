@@ -10,6 +10,11 @@ app.config["MONGO_URI"] = <mongoDB-URI>		# CHANGE THIS
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
 
+if not 'tests' in db.list_collections():
+	tests_collection = db['tests']
+
+if not 'articles' in db.list_collections():
+	articles_collection = db['articles']
 
 
 from application import routes

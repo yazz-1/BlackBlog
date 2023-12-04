@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Edit Article {% endblock %}</h1>
+
+    <h2>Old Article</h2>
+    <h3>{{ article.title }}</h3>
+    <p>{{ article.article }}</p>
+
+    <h2>New Article</h2>
+    <form method="POST">
+        {{ form.csrf_token }}
+
+        <p>
+            {{ form.title.label }}
+            {{ form.title(size=20) }}
+        </p>
+
+        <p>
+            {{ form.article.label }}
+        </p>
+        {{ form.article(rows=10, cols=100) }}
+
+        {% if form.article.errors %}
+            <ul class="errors">
+                {% for error in form.article.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p>
+            <input type="submit" value="Update">
+        </p>
+    </form>
+
+{% endblock %}

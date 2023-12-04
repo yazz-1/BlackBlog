@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} {{ article.title }}, by {{ article.user }} {% endblock %}</h1>
+
+    <p>
+        {{ article.article }}
+    </p>
+    <p>
+        {{ article.date }}
+    </p>
+
+{% endblock %}
