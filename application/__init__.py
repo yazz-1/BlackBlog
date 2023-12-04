@@ -1,20 +1,13 @@
 from flask import Flask
-from flask_pymongo import PyMongo
+from pymongo import MongoClient
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = <secret-key>		# CHANGE THIS
-app.config["MONGO_URI"] = <mongoDB-URI>		# CHANGE THIS
+app.config['SECRET_KEY'] = <secret-key>		# CHANGE THIS
+app.config['MONGO_URI'] = <mongoDB-URI>	    # CHANGE THIS
 
 
 #setup database
-mongodb_client = PyMongo(app)
-db = mongodb_client.db
-
-if not 'tests' in db.list_collections():
-	tests_collection = db['tests']
-
-if not 'articles' in db.list_collections():
-	articles_collection = db['articles']
-
+client = MongoClient(app.config['MONGO_URI'])
+db = client.BlackBlog
 
 from application import routes

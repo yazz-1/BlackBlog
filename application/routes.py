@@ -45,7 +45,7 @@ def edit(user, article_id):
 	if form.validate_on_submit():
 		modified = {'$set': {'title':form.title.data, 'article': form.article.data}}
 		db.articles.update_one(query, modified)
-		return get_article_by_ID(user, article_id)
+		return redirect(url_for('get_article_by_ID', user=user, article_id=article_id))
 	else:
 		article = db.articles.find_one({'user': user, 'id': int(article_id)})
 		return render_template('edit.html', form=form, article=article)
