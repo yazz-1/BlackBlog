@@ -14,9 +14,17 @@
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('index') }}">BlackBlog</a>
-        <a href="{{ url_for('create_article') }}">New Post</a>
-        <a href="{{ url_for('about') }}">About</a>
+        {% if 'user' in session %}
+            <a href="{{ url_for('index') }}">BlackBlog</a>
+            <a href="{{ url_for('get_articles_by_USER', user=session['user']) }}">My Articles</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('about') }}">About</a>
+        {% else %}
+            <a href="{{ url_for('index') }}">BlackBlog</a>
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('about') }}">About</a>
+        {% endif%}
     </nav>
     <hr>
     <div class="content">

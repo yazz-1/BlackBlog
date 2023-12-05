@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Login {% endblock %}</h1>
+
+    <form method="POST" action="/login">
+        {{ form.csrf_token }}
+        <p>
+            {{ form.user.label }}
+            {{ form.user() }}
+        </p>
+
+        {% if form.user.errors %}
+            <ul class="errors">
+                {% for error in form.user.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p>
+            {{ form.password.label }}
+            {{ form.password() }}
+        </p>
+
+        {% if form.password.errors %}
+            <ul class="errors">
+                {% for error in form.password.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p>
+            <input type="submit" value="Submit">
+        </p>
+    </form>
+
+{% endblock %}
