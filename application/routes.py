@@ -10,11 +10,19 @@ def index():
 	articles = db.articles.find().sort({'_id':-1}).limit(5)
 	return render_template('index.html', articles=articles)
 
-@app.route('/<user>/<article_id>')
+@app.route('/<user>/<article_id>', methods=['GET', 'POST'])
 def get_article_by_ID(user, article_id):
 	article = db.articles.find_one({'user': user, 'id': int(article_id)})
-	return render_template('article.html', article=article)
-
+	form = CommentForm()
+	if'user' in session and form.validate_on_submit():
+		query = {'user': user, 'id': int(article_id)}
+		comment = [form.comment.data, session['user']]
+		comments = db.articles.find_one(query)['comments']
+		comments.append(comment)
+		db.articles.update_one(query, {'$set': {'comments': comments}})
+		return redirect(url_for('get_article_by_ID', article=article, form=form))
+	else:
+		return render_template('article.html', article=article, form=form)
 @app.route('/<user>')
 def get_articles_by_USER(user):
 	articles = db.articles.find({'user': user})
@@ -22,7 +30,6 @@ def get_articles_by_USER(user):
 
 @app.route('/post', methods=['GET', 'POST'])
 def create_article():
-
 	if 'user' in session:
 		form = ArticleForm()
 		if form.validate_on_submit():
@@ -34,7 +41,8 @@ def create_article():
 					'id': int(last_id) + 1,
 					'title': form.title.data,
 					'article': form.article.data,
-					'date': datetime.datetime.now(tz=datetime.timezone.utc)
+					'date': datetime.datetime.now(tz=datetime.timezone.utc),
+					'comments': []
 				}
 			db.articles.insert_one(x)
 			return redirect(url_for('index'))
@@ -81,10 +89,8 @@ def register():
 	else:
 		return render_template('register.html', form=form)
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
 	if 'user' in session:
 		return "<p>You are already logged in! Go to <a href=" + url_for('index')+ ">BlackBlog's Home</a></p>"
 	else:

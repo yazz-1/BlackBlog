@@ -4,7 +4,6 @@ from wtforms.validators import InputRequired, Length, Email
 
 
 class ArticleForm(FlaskForm):
-    user = StringField('User', validators=[InputRequired(), Length(min=4), Length(max=25)])
     title = StringField('Title', validators=[InputRequired(), Length(max=1000)])
     article = TextAreaField('Text', validators=[InputRequired(), Length(max=200000)])
 
@@ -20,3 +19,6 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     user = StringField('Username', validators=[InputRequired(), Length(min=4), Length(max=25)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min=6)])
+
+class CommentForm(FlaskForm):
+    comment = StringField('Comment', validators=[InputRequired(), Length(max=10000)])

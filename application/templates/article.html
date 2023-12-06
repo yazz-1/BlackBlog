@@ -9,5 +9,30 @@
     <p>
         {{ article.date }}
     </p>
+    <h2>
+        Comments({{ article.comments|length }})
+    </h2>
+    {% for comment in article.comments %}
+        <p>
+            {{ comment[0] }} - {{ comment[1] }}
+        </p>
+    {% endfor %}
 
+    {% if article.user == session['user'] %}
+        <form method="POST">
+            <p>
+            {{ form.comment.label }}
+            {{ form.comment() }}
+            <input type="submit" value="Add">
+            </p>
+
+            {% if form.comment.errors %}
+                <ul class="errors">
+                    {% for error in form.comment.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </form>
+        {% endif %}
 {% endblock %}
