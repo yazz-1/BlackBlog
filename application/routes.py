@@ -70,7 +70,6 @@ def register():
 				'email': form.email.data
 			}
 		if db.users.find_one({'user':x['user'], 'email':x['email']}) != None:
-			print(db.users.find_one({'user':x['user'], 'email':x['email']}))
 			return "<p>You already have an account! Log in <a href=" + url_for('login')+ ">here</a></p>"
 		elif db.users.find_one({'user':x['user']}) != None:
 			return "<p>Username already exists! Please try a new one.<a href=" + url_for('register')+ ">Back</a></p>"
