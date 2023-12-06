@@ -34,7 +34,7 @@ def create_article():
 		form = ArticleForm()
 		if form.validate_on_submit():
 			try:
-				last_id = db.articles.find({'user': form.user.data}).sort({'_id':-1}).limit(1)[0]['id']
+				last_id = db.articles.find({'user': session['user']}).sort({'_id':-1}).limit(1)[0]['id']
 			except:
 				last_id = 0
 			x = {'user': session['user'],
