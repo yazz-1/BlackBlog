@@ -37,12 +37,13 @@ def create_article():
 				last_id = db.articles.find({'user': session['user']}).sort({'_id':-1}).limit(1)[0]['id']
 			except:
 				last_id = 0
-			x = {'user': session['user'],
-					'id': int(last_id) + 1,
-					'title': form.title.data,
-					'article': form.article.data,
-					'date': datetime.datetime.now(tz=datetime.timezone.utc),
-					'comments': []
+			x = {
+				'user': session['user'],
+				'id': int(last_id) + 1,
+				'title': form.title.data,
+				'article': form.article.data,
+				'date': datetime.datetime.now(tz=datetime.timezone.utc),
+				'comments': []
 				}
 			db.articles.insert_one(x)
 			return redirect(url_for('index'))
@@ -73,9 +74,10 @@ def edit_article(user, article_id):
 def register():
 	form = RegisterForm()
 	if form.validate_on_submit():
-		x = {'user': form.user.data,
-				'password': generate_password_hash(form.password.data),
-				'email': form.email.data
+		x = {
+			'user': form.user.data,
+			'password': generate_password_hash(form.password.data),
+			'email': form.email.data
 			}
 		if db.users.find_one({'user':x['user'], 'email':x['email']}) != None:
 			return "<p>You already have an account! Log in <a href=" + url_for('login')+ ">here</a></p>"
@@ -96,8 +98,9 @@ def login():
 	else:
 		form = LoginForm()
 		if form.validate_on_submit():
-			x = {'user': form.user.data,
-					'password': form.password.data,
+			x = {
+				'user': form.user.data,
+				'password': form.password.data,
 				}
 			stored = db.users.find_one({'user': x['user']})
 			print(check_password_hash(stored['password'], x['password']))
